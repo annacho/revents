@@ -10,11 +10,13 @@ import PeopleDashboard from '../../features/user/PeopleDashboard/PeopleDashboard
 import EventDetailPage from '../../features/events/EventDetail/EventDetailPage.jsx';
 import HomePage from '../../features/home/HomePage.jsx';
 import TestComponent from '../../features/testarea/TestComponent.jsx';
+import ModalManager from '../../features/modals/ModalManager.jsx';
 
 class App extends Component {
   render() {
     return (
       <div>
+        <ModalManager/>
         <Switch>
           <Route exact path='/' component={HomePage}/>
         </Switch>
