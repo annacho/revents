@@ -1,5 +1,5 @@
 /*global google */
-import React, {PropTypes} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import moment from 'moment';
@@ -14,6 +14,25 @@ import TextArea from '../../../app/common/form/TextArea';
 import SelectInput from '../../../app/common/form/SelectInput';
 import DateInput from '../../../app/common/form/DateInput';
 import PlaceInput from '../../../app/common/form/PlaceInput';
+
+const mapState = (state, ownProps) => {
+  const eventId = ownProps.match.params.id;
+
+  let event = {};
+
+  if (eventId && state.events.length > 0) {
+    event = state.events.filter(event => event.id === eventId)[0];
+  }
+
+  return {
+    initialValues: event
+  }
+}
+
+const actions = {
+  createEvent,
+  updateEvent
+}
 
 const category = [
     {key: 'drinks', text: 'Drinks', value: 'drinks'},
@@ -33,7 +52,8 @@ const validate = combineValidators({
   )(),
   city: isRequired('city'),
   venue: isRequired('venue'),
-  date: isRequired('date')
+  date: isRequired('date'),
+  )
 })
 
 class EventForm extends React.Component {
@@ -109,7 +129,7 @@ class EventForm extends React.Component {
               <Field
                 name='city'
                 type='text'
-                component={PlacesInput}
+                component={PlaceInput}
                 options={{ types: ['(cities)'] }}
                 placeholder='Event City'
                 onSelect={this.handleCitySelect}
@@ -118,7 +138,7 @@ class EventForm extends React.Component {
               <Field
                 name='venue'
                 type='text'
-                component={PlacesInput}
+                component={PlaceInput}
                 options={{
                   location: new google.maps.LatLng(this.state.cityLatLng),
                   radius: 1000,
@@ -146,25 +166,6 @@ class EventForm extends React.Component {
       </Grid>
     );
   }
-}
-
-const mapState = (state, ownProps) => {
-  const eventId = ownProps.match.params.id;
-
-  let event = {};
-
-  if (eventId && state.events.length > 0) {
-    event = state.events.filter(event => event.id === eventId)[0];
-  }
-
-  return {
-    initialValues: event
-  }
-}
-
-const actions = {
-  createEvent,
-  updateEvent
 }
 
 export default connect(mapState, actions)({form: 'eventForm', enableReinitialize: true, validate })(EventForm);
