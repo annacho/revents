@@ -30,7 +30,7 @@ class UserDetailPage extends Component {
         <UserDetailSidebar/>
         {photos && photos.length > 0 &&
         <UserDetailPhotos photos={photos} />}
-        <UsreDetailEvents/>
+        <UserDetailEvents/>
       </Grid>
     )
   }
