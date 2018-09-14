@@ -14,7 +14,7 @@ const query = ({auth}) => {
     {
       collection: 'users',
       doc: auth.uid,
-      subcollections: [{collection: 'photos'}]
+      subcollections: [{collection: 'photos'}],
       storeAs: 'photos'
     }
   ]
@@ -22,17 +22,18 @@ const query = ({auth}) => {
 
 class UserDetailPage extends Component {
 
-render() {
-  return (
-    <Grid>
-      <UserDetailHeader profile={profile}/>
-      <UserDetailDescription profile={profile}/>
-      <UserDetailSidebar/>
-      {photos && photos.length > 0 &&
-      <UserDetailPhotos photos={photos} />}
-      <UsreDetailEvents/>
-    </Grid>
-  )
+  render() {
+    return (
+      <Grid>
+        <UserDetailHeader profile={profile}/>
+        <UserDetailDescription profile={profile}/>
+        <UserDetailSidebar/>
+        {photos && photos.length > 0 &&
+        <UserDetailPhotos photos={photos} />}
+        <UsreDetailEvents/>
+      </Grid>
+    )
+  }
 }
 
 const mapState = (state) => ({
