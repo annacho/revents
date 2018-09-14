@@ -45,7 +45,7 @@ export const registerUser = (user) =>
       })
     }
   };
-};
+
 
 export const socialLogin = (selectedProvider) =>
   async (dispatch, getState, {getFirebase, getFirestore}) => {

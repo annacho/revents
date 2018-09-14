@@ -52,12 +52,12 @@ class TestComponent extends React.Component {
         <h3>The answer is: {data}</h3>
           <Button loading={loading} onClick={incrementAsync} color='green' content='Increment'/>
           <Button loading={loading} onClick={decrementAsync} color='red' content='Decrement'/>
-          <Button onClick={() => openModal('TestModal', {data: 43})} color="teal" content="Open Modal">
+          <Button onClick={() => openModal('TestModal', {data: 43})} color="teal" content="Open Modal"/>
           <br/>
           <br/>
           <form onSubmit={this.handleFormSubmit}>
           {this.state.scriptLoaded && <PlacesAutocomplete inputProps={inputProps} />}
-            <button type="submit">Submit</button>
+            <Button type="submit">Submit</Button>
           </form>
       </div>
     )
