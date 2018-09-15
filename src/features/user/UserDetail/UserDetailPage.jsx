@@ -18,7 +18,7 @@ class UserDetailPage extends Component {
     const loading = Object.values(requesting).some(a => a === true);
 
     if (loading) return <LoadingComponent inverted={true}/>
-    
+
     return (
       <Grid>
         <UserDetailHeader profile={profile}/>
@@ -48,7 +48,7 @@ const mapState = (state, ownProps) => {
     userUid,
     auth: state.firebase.auth,
     photos: state.firebase.ordered.photos,
-    requesting: state.firestore.requesting
+    requesting: state.firestore.status.requesting
   }
 }
 
