@@ -2,32 +2,28 @@ import React, {Component} from 'react';
 // import {Grid, Header, Icon, Image, Item, List, Menu, Segment} from "semantic-ui-react";
 import { Grid } from "semantic-ui-react";
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
+import { firestoreConnect, isEmpty } from 'react-redux-firebase';
 import UserDetailHeader from './UserDetailHeader';
 import UserDetailDescription from './UserDetailDescription';
 import UserDetailSidebar from './UserDetailSidebar';
 import UserDetailPhotos from './UserDetailPhotos';
 import UserDetailEvents from './UserDetailEvents';
-
-const query = ({auth}) => {
-  return [
-    {
-      collection: 'users',
-      doc: auth.uid,
-      subcollections: [{collection: 'photos'}],
-      storeAs: 'photos'
-    }
-  ]
-}
+import { userDetailQuery } from '../userQueries';
 
 class UserDetailPage extends Component {
 
   render() {
+    const { profile, photos, auth, match, requesting } = this.props;
+    const isCurrentUser = auth.uid === match.params.id;
+    const loading = Object.values(requesting).some(a => a === true);
+
+    if (loading) return <LoadingComponent inverted={true}/>
+    
     return (
       <Grid>
         <UserDetailHeader profile={profile}/>
         <UserDetailDescription profile={profile}/>
-        <UserDetailSidebar/>
+        <UserDetailSidebar isCurrentUser={isCurrentUser}/>
         {photos && photos.length > 0 &&
         <UserDetailPhotos photos={photos} />}
         <UserDetailEvents/>
@@ -36,13 +32,27 @@ class UserDetailPage extends Component {
   }
 }
 
-const mapState = (state) => ({
-  profile: state.firebase.profile,
-  auth: state.firebase.auth,
-  photos: state.firebase.ordered.photos
-})
+const mapState = (state, ownProps) => {
+  let userUid = null;
+  let profile = {};
+
+  if (ownProps.match.params.id === state.auth.uid) {
+    profile = state.firebase.profile
+  } else {
+    profile = !isEmpty(state.firestore.ordered.profile) && state.firestore.ordered.profile[0];
+    userUid = ownProps.match.params.id;
+  }
+
+  return {
+    profile,
+    userUid,
+    auth: state.firebase.auth,
+    photos: state.firebase.ordered.photos,
+    requesting: state.firestore.requesting
+  }
+}
 
 export default compose(
   connect(mapState),
-  firestoreConnect(auth => query(auth)),
+  firestoreConnect((auth, userUid) => userDetailQuery(auth, userUid)),
 )(UserDetailPage);

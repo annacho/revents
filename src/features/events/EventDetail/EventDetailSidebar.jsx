@@ -3,6 +3,7 @@ import { Segment, List, Label, Item } from 'semantic-ui-react';
 import EventDetailHeader from './EventDetailHeader';
 import EventDetailInfo from './EventDetailInfo';
 import EventDetailChat from './EventDetailChat';
+import {Link} from 'react-router-dom';
 
 const EventDetailSidebar = ({attendees}) => {
   const isHost = false;
@@ -34,7 +35,7 @@ const EventDetailSidebar = ({attendees}) => {
               <Item.Image size="tiny" src={attendee.photoURL} />
               <Item.Content verticalAlign="middle">
                 <Item.Header as="h3">
-                  <a>{attendee.name}</a>
+                  <Link to={'/profile/${attendee.id}'}>{attendee.displayName}</Link>
                 </Item.Header>
               </Item.Content>
               </Item>
