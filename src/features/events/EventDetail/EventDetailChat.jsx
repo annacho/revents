@@ -82,9 +82,9 @@ class EventDetailChat extends Component {
                         <EventDetailChatForm
                           addEventComment={addEventComment}
                           eventId={eventId}
-                          form={'reply_${comment.id}'}
+                          form={'reply_${child.id}'}
                           closeForm={this.handleCloseReplyForm}
-                          parentId={child.id}
+                          parentId={child.parentid}
                         />
                       )}
                     </Comment.Actions>
