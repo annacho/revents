@@ -11,6 +11,30 @@ import { objectToArray, createDataTree } from '../../../app/common/util/helpers'
 import { goingToEvent, cancelGoingToEvent } from '../../user/userActions';
 import { addEventComment } from '../eventActions';
 
+const mapState = (state, ownProps) => {
+
+  let event = {};
+
+  if (state.firestore.ordered.events && state.firestore.ordered.events[0]) {
+    event = state.firestore.ordered.events[0]
+  }
+
+  return {
+    event,
+    loading: state.async.loading,
+    auth: state.firebase.auth,
+    eventChat:
+      !isEmpty(state.firebase.data.event_chat) &&
+      objectToArray(state.firebase.data.event_chat[ownProps.match.params.id])
+  }
+}
+
+const actions = {
+  goingToEvent,
+  cancelGoingToEvent,
+  addEventComment
+}
+
 class EventDetailPage extends Component {
 
   async componentDidMount() {
@@ -24,7 +48,7 @@ class EventDetailPage extends Component {
   }
 
   render() {
-    const { event, auth, goingToEvent, cancelGoingToEvent, addEventComment, eventChat } = this.props;
+    const { loading, event, auth, goingToEvent, cancelGoingToEvent, addEventComment, eventChat } = this.props;
     const attendees = event && event.attendees && objectToArray(event.attendees);
     const isHost = event.hostUid === auth.uid
     const isGoing = attendees && attendees.some(a => a.id === auth.uid);
@@ -34,6 +58,7 @@ class EventDetailPage extends Component {
         <Grid.Column width={10}>
           <EventDetailHeader
             event={event}
+            loading={loading}
             isHost={isHost}
             isGoing={isGoing}
             goingToEvent={goingToEvent}
@@ -48,29 +73,6 @@ class EventDetailPage extends Component {
       </Grid>
     );
   }
-}
-
-const mapState = (state, ownProps) => {
-
-  let event = {};
-
-  if (state.firestore.ordered.events && state.firestore.ordered.events[0]) {
-    event = state.firestore.ordered.events[0]
-  }
-
-  return {
-    event,
-    auth: state.firebase.auth,
-    eventChat:
-      !isEmpty(state.firebase.data.event_chat) &&
-      objectToArray(state.firebase.data.event_chat[ownProps.match.params.id])
-  }
-}
-
-const actions = {
-  goingToEvent,
-  cancelGoingToEvent,
-  addEventComment
 }
 
 export default compose(

@@ -9,38 +9,7 @@ import UserDetailSidebar from './UserDetailSidebar';
 import UserDetailPhotos from './UserDetailPhotos';
 import UserDetailEvents from './UserDetailEvents';
 import { userDetailQuery } from '../userQueries';
-import { getUserEvents } from '../userActions';
-
-class UserDetailPage extends Component {
-
-  async componentDidMount(){
-    let events = await this.props.getUserEvents(this.props.userUid);
-    console.log(events);
-  }
-
-  changeTab = (e, data) => {
-    this.props.getUserEvents(this.props.userUid, data.activeIndex);
-  }
-
-  render() {
-    const { profile, photos, auth, match, requesting, events, eventsLoading } = this.props;
-    const isCurrentUser = auth.uid === match.params.id;
-    const loading = Object.values(requesting).some(a => a === true);
-
-    if (loading) return <LoadingComponent inverted={true}/>
-
-    return (
-      <Grid>
-        <UserDetailHeader profile={profile}/>
-        <UserDetailDescription profile={profile}/>
-        <UserDetailSidebar isCurrentUser={isCurrentUser}/>
-        {photos && photos.length > 0 &&
-        <UserDetailPhotos photos={photos} />}
-        <UserDetailEvents events={events} eventsLoading={eventsLoading} changeTab={this.changeTab}/>
-      </Grid>
-    )
-  }
-}
+import { getUserEvents, followUser, unfollowUser } from '../userActions';
 
 const mapState = (state, ownProps) => {
   let userUid = null;
@@ -60,15 +29,55 @@ const mapState = (state, ownProps) => {
     eventsLoading: state.async.loading,
     auth: state.firebase.auth,
     photos: state.firebase.ordered.photos,
-    requesting: state.firestore.status.requesting
+    requesting: state.firestore.status.requesting,
+    following: state.firestore.ordered.following
   }
 }
 
 const actions = {
-  getUserEvents
+  getUserEvents,
+  followUser,
+  unfollowUser
+}
+
+class UserDetailPage extends Component {
+
+  async componentDidMount(){
+    let events = await this.props.getUserEvents(this.props.userUid);
+    console.log(events);
+  }
+
+  changeTab = (e, data) => {
+    this.props.getUserEvents(this.props.userUid, data.activeIndex);
+  }
+
+  render() {
+    const { profile, photos, auth, match, requesting, events, eventsLoading, followUser, unfollowUser } = this.props;
+    const isCurrentUser = auth.uid === match.params.id;
+    const loading = Object.values(requesting).some(a => a === true);
+    const isFollowing = !isEmpty(following);
+
+    if (loading) return <LoadingComponent inverted={true}/>
+
+    return (
+      <Grid>
+        <UserDetailHeader profile={profile}/>
+        <UserDetailDescription profile={profile}/>
+        <UserDetailSidebar 
+          isFollowing={isFollowing}
+          profile={profile}
+          followUser={followUser}
+          unfollowUser={unfollowUser}
+          isCurrentUser={isCurrentUser}/>
+        {photos && photos.length > 0 &&
+        <UserDetailPhotos photos={photos} />}
+        <UserDetailEvents events={events} eventsLoading={eventsLoading} changeTab={this.changeTab}/>
+      </Grid>
+    )
+  }
 }
 
 export default compose(
   connect(mapState, actions),
-  firestoreConnect((auth, userUid) => userDetailQuery(auth, userUid)),
+  firestoreConnect((auth, userUid, match) => userDetailQuery(auth, userUid, match)),
 )(UserDetailPage);
