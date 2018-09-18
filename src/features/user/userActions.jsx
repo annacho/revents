@@ -104,11 +104,13 @@ export const updateProfile = (user) =>
 
         let eventQuerySnap = await eventQuery.get();
 
-        for (let i=0; i< eventQuerySnap.docs.length; i++) {
+        for (let i = 0; i < eventQuerySnap.docs.length; i++) {
           let eventDocRef = await firestore
             .collection('events')
             .doc(eventQuerySnap.docs[i].data().eventId);
+
           let event = await eventDocRef.get();
+
           if (event.data().hostUid === user.uid) {
             batch.update(eventtDocRef, {
               hostPhotoURL: photo.url,

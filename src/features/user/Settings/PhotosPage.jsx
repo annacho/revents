@@ -54,7 +54,7 @@ class PhotosPage extends Component {
 
   handleSetMainPhoto = photo => async () => {
     try {
-      this.props.setMainPhoto(photo)
+      await this.props.setMainPhoto(photo)
     } catch (error) {
       toastr.error('Oops', error.message)
     }

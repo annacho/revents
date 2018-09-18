@@ -3,8 +3,20 @@ import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 import Script from 'react-load-script';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
-import { incrementAsync, decrementAsync } from './testActions';
+import { incrementAsync, decrementAsync, testtPermission } from './testActions';
 import { openModal } from '../modals/modalActions';
+
+const mapState = (state) => ({
+  data: state.test.data,
+  loading: state.test.loading
+})
+
+const actions = {
+  incrementAsync,
+  decrementAsync,
+  openModal,
+  testPermission
+}
 
 class TestComponent extends React.Component {
   static defaultProps = {
@@ -41,7 +53,7 @@ class TestComponent extends React.Component {
       onChange: this.onChange,
     }
 
-    const {incrementAsync, decrementAsync, data, openModal, loading } = this.props;
+    const { testPermission, incrementAsync, decrementAsync, data, openModal, loading } = this.props;
     return (
       <div>
         <Script
@@ -53,6 +65,7 @@ class TestComponent extends React.Component {
           <Button loading={loading} onClick={incrementAsync} color='green' content='Increment'/>
           <Button loading={loading} onClick={decrementAsync} color='red' content='Decrement'/>
           <Button onClick={() => openModal('TestModal', {data: 43})} color="teal" content="Open Modal"/>
+          <Button onClick={testPermission} color="teal" content="Test Permissions"/>
           <br/>
           <br/>
           <form onSubmit={this.handleFormSubmit}>
@@ -62,17 +75,6 @@ class TestComponent extends React.Component {
       </div>
     )
   }
-}
-
-const mapState = (state) => ({
-  data: state.test.data,
-  loading: state.test.loading
-})
-
-const actions = {
-  incrementAsync,
-  decrementAsync,
-  openModal
 }
 
 export default connect(mapState)(TestComponent)

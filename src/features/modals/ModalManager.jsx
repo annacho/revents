@@ -3,12 +3,18 @@ import { connect } from 'react-redux';
 import TestModal from './TestModal';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
+import UnauthModal from './UnauthModal';
 
 const modalLookup = {
   TestModal,
   LoginModal,
-  RegisterModal
+  RegisterModal,
+  UnauthModal
 }
+
+const mapState = (state) => ({
+  currentModal: state.modals
+})
 
 const ModalManager = ({currentModal}) => {
   let renderedModal;
@@ -22,9 +28,5 @@ const ModalManager = ({currentModal}) => {
 
   return <span>{renderedModal}</span>
 }
-
-const mapState = (state) => ({
-  currentModal: state.modals
-})
 
 export default connect(mapState)(ModalManager)
