@@ -136,12 +136,12 @@ export const updateProfile = (user) =>
     async (dispatch, getState) => {
       const firestore = firebase.firestore();
       const user = firestore.auth().currentUser;
-      const photoURL = getState().firebase.profile.photoURL;
+      const profile = getState().firebase.profile.photoURL;
       const attendee = {
         going: true,
         joinDate: Date.now(),
-        photoURL: photoURL || '/assets/user.png',
-        displayName: user.displayName,
+        photoURL: profile.photoURL || '/assets/user.png',
+        displayName: profile.displayName,
         host: false
       }
       try {

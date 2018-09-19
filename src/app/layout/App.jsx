@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { Container } from 'semantic-ui-react';
 import { Route, Switch } from 'react-router-dom';
-import EventDashboard from '../../features/events/EventDashboard/EventDashboard.jsx';
-import NavBar from '../../features/nav/NavBar/NavBar.jsx';
-import EventForm from '../../features/events/EventForm/EventForm.jsx';
-import SettingsDashboard from '../../features/user/Settings/SettingsDashboard.jsx';
-import UserDetailPage from '../../features/user/UserDetail/UserDetailPage.jsx';
-import PeopleDashboard from '../../features/user/PeopleDashboard/PeopleDashboard.jsx';
-import EventDetailPage from '../../features/events/EventDetail/EventDetailPage.jsx';
-import HomePage from '../../features/home/HomePage.jsx';
-import TestComponent from '../../features/testarea/TestComponent.jsx';
-import ModalManager from '../../features/modals/ModalManager.jsx';
+import EventDashboard from '../../features/events/EventDashboard/EventDashboard';
+import NavBar from '../../features/nav/NavBar/NavBar';
+import EventForm from '../../features/events/EventForm/EventForm';
+import SettingsDashboard from '../../features/user/Settings/SettingsDashboard';
+import UserDetailPage from '../../features/user/UserDetail/UserDetailPage';
+import PeopleDashboard from '../../features/user/PeopleDashboard/PeopleDashboard';
+import EventDetailPage from '../../features/events/EventDetail/EventDetailPage';
+import HomePage from '../../features/home/HomePage';
+import TestComponent from '../../features/testarea/TestComponent';
+import ModalManager from '../../features/modals/ModalManager';
+import NotFound from '../../app/layout/NotFound';
 import { UserIsAuthenticated } from '../../features/auth/authWrapper';
 
 class App extends Component {
@@ -31,12 +32,14 @@ class App extends Component {
                 <Switch>
                   <Route path='/events' component={EventDashboard}/>
                   <Route path='/event/:id' component={EventDetailPage}/>
+                  <Route path='/test' component={TestComponent}/>
                   <Route path='/people' component={UserIsAuthenticated(PeopleDashboard)}/>
                   <Route path='/profile/:id' component={UserIsAuthenticated(UserDetailPage)}/>
                   <Route path='/settings' component={UserIsAuthenticated(SettingsDashboard)}/>
                   <Route path='/createEvent' component={UserIsAuthenticated(EventForm)}/>
                   <Route path='/manage/:id' component={UserIsAuthenticated(EventForm)}/>
-                  <Route path='/test' component={TestComponent}/>
+                  <Route path='/error' component={NotFound}/>
+                  <Route component={NotFound}/>
                 </Switch>
               </Container>
             </div>

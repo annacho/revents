@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-// import {Grid, Header, Icon, Image, Item, List, Menu, Segment} from "semantic-ui-react";
-import { Grid } from "semantic-ui-react";
 import { connect } from 'react-redux';
 import { firestoreConnect, isEmpty } from 'react-redux-firebase';
+import { compose } from 'redux';
+import { Grid } from "semantic-ui-react";
+import { toastr } from 'react-redux-toastr';
 import UserDetailHeader from './UserDetailHeader';
 import UserDetailDescription from './UserDetailDescription';
 import UserDetailSidebar from './UserDetailSidebar';
@@ -43,6 +44,11 @@ const actions = {
 class UserDetailPage extends Component {
 
   async componentDidMount(){
+    let user = await this.props.firestore.get('users/${this.props.match.params.id}');
+    if (!user.exists) {
+      toastr.error('Not Found', 'This is not the user you are looking for');
+      this.props.history.push('/error')
+    }
     let events = await this.props.getUserEvents(this.props.userUid);
     console.log(events);
   }
@@ -54,7 +60,7 @@ class UserDetailPage extends Component {
   render() {
     const { profile, photos, auth, match, requesting, events, eventsLoading, followUser, unfollowUser } = this.props;
     const isCurrentUser = auth.uid === match.params.id;
-    const loading = Object.values(requesting).some(a => a === true);
+    const loading = requesting['users/${match.params.id}'];
     const isFollowing = !isEmpty(following);
 
     if (loading) return <LoadingComponent inverted={true}/>
@@ -63,7 +69,7 @@ class UserDetailPage extends Component {
       <Grid>
         <UserDetailHeader profile={profile}/>
         <UserDetailDescription profile={profile}/>
-        <UserDetailSidebar 
+        <UserDetailSidebar
           isFollowing={isFollowing}
           profile={profile}
           followUser={followUser}
