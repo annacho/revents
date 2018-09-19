@@ -1,4 +1,4 @@
-export const userDetailQuery = ({ auth, userUid }) => {
+export const userDetailQuery = ({ auth, userUid, match }) => {
   if (userUid !== null) {
     return [
       {

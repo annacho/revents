@@ -9,7 +9,9 @@ import UserDetailDescription from './UserDetailDescription';
 import UserDetailSidebar from './UserDetailSidebar';
 import UserDetailPhotos from './UserDetailPhotos';
 import UserDetailEvents from './UserDetailEvents';
+import LoadingComponent from '../../../app/layout/LoadingComponent';
 import { userDetailQuery } from '../userQueries';
+
 import { getUserEvents, followUser, unfollowUser } from '../userActions';
 
 const mapState = (state, ownProps) => {
@@ -58,7 +60,7 @@ class UserDetailPage extends Component {
   }
 
   render() {
-    const { profile, photos, auth, match, requesting, events, eventsLoading, followUser, unfollowUser } = this.props;
+    const { profile, photos, auth, match, requesting, events, eventsLoading, followUser, unfollowUser, following } = this.props;
     const isCurrentUser = auth.uid === match.params.id;
     const loading = requesting['users/${match.params.id}'];
     const isFollowing = !isEmpty(following);

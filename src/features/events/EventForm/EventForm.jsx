@@ -51,9 +51,9 @@ const validate = combineValidators({
     isRequired({message: 'Please enter a description'}),
     hasLengthGreaterThan(4)({message: 'Description needs to be at least 5 characters'}
   )(),
-  city: isRequired('city'),
-  venue: isRequired('venue'),
-  date: isRequired('date'),
+  city: city.isRequired,
+  venue: venue.isRequired,
+  date: date.isRequired,
   )
 })
 
@@ -169,7 +169,7 @@ class EventForm extends React.Component {
               >
               Cancel
               </Button>
-              {event.id &&         
+              {event.id &&
               <Button
                 onClick={() => cancelToggle(!event.cancelled, event.id)}
                 type='button'

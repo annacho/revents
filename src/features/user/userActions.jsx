@@ -1,7 +1,7 @@
 import moment from 'moment';
 import cuid from 'cuid';
 import { toastr } from 'react-redux-toastr';
-import { FETCH_EVENTS } from '../event/eventConstants';
+import { FETCH_EVENTS } from '../events/eventConstants';
 import { asyncActionStart, asyncActionFinish, asyncActionError } from '../async/asyncActions';
 import firebase from '../../app/config/firebase';
 
@@ -112,7 +112,7 @@ export const updateProfile = (user) =>
           let event = await eventDocRef.get();
 
           if (event.data().hostUid === user.uid) {
-            batch.update(eventtDocRef, {
+            batch.update(eventDocRef, {
               hostPhotoURL: photo.url,
               ['attendees.${user.uid}.photoURL']: photo.url
             })
@@ -241,7 +241,7 @@ export const followUser = userToFollow =>
     city: userToFollow.city || 'Unknown City',
     displayName: userToFollow.displayName
   };
-  try (
+  try {
     await firestore.set(
       {
         collection: 'users',
@@ -250,7 +250,7 @@ export const followUser = userToFollow =>
       },
       following
     );
-  ) catch (error) {
+  } catch (error) {
     console.log(error);
   }
 }
@@ -259,13 +259,13 @@ export const unfollowUser = userToUnfollow =>
   async (dispatch, getState, {getFirestore}) => {
     const firestore = getFirestore();
     const user = firestore.auth().currentUser;
-    try (
+    try {
       await firestore.delete({
         collection: 'users',
         doc: user.uid,
         subcollections: [{ collection: 'following', doc: userToUnfollow.id }]
       })
-    ) catch (error) {
+    } catch (error) {
       console.log(error);
     }
   }

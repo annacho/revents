@@ -16,7 +16,16 @@ const eventImageTextStyle = {
     color: 'white'
 };
 
-const EventDetailHeader = ({ loading, event, isHost, isGoing, goingToEvent, cancelGoingToEvent }) => {
+const EventDetailHeader = ({
+  loading,
+  event,
+  isHost,
+  isGoing,
+  goingToEvent,
+  cancelGoingToEvent,
+  authenticated,
+  openModal
+}) => {
   let eventDate;
   if (event.date) {
     eventDate = event.date.toDate();
@@ -74,7 +83,7 @@ const EventDetailHeader = ({ loading, event, isHost, isGoing, goingToEvent, canc
         {isHost && (
           <Button as={Link} to={`/manage/${event.id}`} color="orange" >
             Manage Event
-          </Button>}
+          </Button>
         )}
 
       </Segment>

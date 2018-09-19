@@ -55,6 +55,6 @@ const PeopleDashboard = ({followings, followers}) => {
 
 export default compose(
   connect(mapState),
-  firebaseConnect(props =>
+  firestoreConnect(props =>
     query(props)
   ))(PeopleDashboard);

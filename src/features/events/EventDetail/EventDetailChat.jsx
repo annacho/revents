@@ -41,7 +41,8 @@ class EventDetailChat extends Component {
 
         <Segment attached>
           <Comment.Group>
-            {eventChat && eventChat.map((comment) => (
+            {eventChat &&
+              eventChat.map((comment) => (
             <Comment key={comment.id}>
               <Comment.Avatar src={comment.photoURL || "/assets/user.png"} />
               <Comment.Content>
@@ -63,7 +64,6 @@ class EventDetailChat extends Component {
                   )}
                 </Comment.Actions>
               </Comment.Content>
-            </Comment>
 
             {comment.childNodes &&
               comment.childNodes.map(child => (
@@ -78,21 +78,30 @@ class EventDetailChat extends Component {
                     <Comment.Text>{child.text}</Comment.Text>
                     <Comment.Actions>
                       <Comment.Action onClick={this.handleOpenReplyForm(child.id)}>Reply</Comment.Action>
-                      {showReplyForm && selectedCommentId === child.id && (
-                        <EventDetailChatForm
-                          addEventComment={addEventComment}
-                          eventId={eventId}
-                          form={'reply_${child.id}'}
-                          closeForm={this.handleCloseReplyForm}
-                          parentId={child.parentid}
-                        />
-                      )}
+                      {showReplyForm &&
+                        selectedCommentId === child.id && (
+                          <EventDetailChatForm
+                            addEventComment={addEventComment}
+                            eventId={eventId}
+                            form={'reply_${child.id}'}
+                            closeForm={this.handleCloseReplyForm}
+                            parentId={child.parentid}
+                          />
+                        )}
                     </Comment.Actions>
                   </Comment.Content>
                 </Comment>
               </Comment.Group>
             ))}
-          <EventDetailChatForm parentId={0} addEventComment={addEventComment} eventId={eventId} form={'newComment'}/>
+          </Comment>
+          ))}
+        </Comment.Group>
+        <EventDetailChatForm
+          parentId={0}
+          addEventComment={addEventComment}
+          eventId={eventId}
+          form={'newComment'}
+        />
         </Segment>
       </div>
     );

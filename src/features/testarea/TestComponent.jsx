@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 import Script from 'react-load-script';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
-import { incrementAsync, decrementAsync, testtPermission } from './testActions';
+import { incrementAsync, decrementAsync, testPermission } from './testActions';
 import { openModal } from '../modals/modalActions';
 
 const mapState = (state) => ({

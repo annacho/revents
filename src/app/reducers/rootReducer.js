@@ -7,7 +7,7 @@ import testReducer from '../../features/testarea/testReducer';
 import eventReducer from '../../features/events/eventReducer';
 import modalReducer from '../../features/modals/modalReducer';
 import authReducer from '../../features/auth/authReducer';
-import asyncReducer from '../../features/auth/asyncReducer';
+import asyncReducer from '../../features/async/asyncReducer';
 
 const rootReducer = combineReducers({
   firebase: firebaseReducer,

@@ -21,7 +21,7 @@ const UserDetailEvents = ({ events, eventsLoading, changeTab }) => {
 
         <Card.Group itemsPerRow={5}>
           {events &&
-            events.map(event)} => (
+            events.map(event => (
               <Card as={Link} to={'/event/${event.id}'} key={event.id}>
                 <Image src={'/assets/categoryImages/${event.category}.jpg'}/>
                 <Card.Content>
@@ -34,7 +34,7 @@ const UserDetailEvents = ({ events, eventsLoading, changeTab }) => {
                   </Card.Meta>
                 </Card.Content>
               </Card>
-            )
+            ))}
         </Card.Group>
       </Segment>
     </Grid.Column>

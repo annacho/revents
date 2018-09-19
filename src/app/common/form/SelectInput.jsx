@@ -1,7 +1,7 @@
 import React from 'react';
-import { Form, Label } from 'semantic-ui-react';
+import { Form, Label, Select } from 'semantic-ui-react';
 
-const SelectInput = ({input, type, placeholder, multiple, options, meta: {touched, error}}) => {
+const SelectInput = ({input, type, placeholder, multiple, options, meta: {touched, error}, width}) => {
   return (
     <Form.Field error={touched && !!error} width={width}>
       <Select

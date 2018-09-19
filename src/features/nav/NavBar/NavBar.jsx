@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { withFirebase } from 'react-redux-firebase';
 import { Menu, Container, Button } from 'semantic-ui-react';
@@ -7,7 +7,7 @@ import SignedOutMenu from '../Menus/SignedOutMenu';
 import SignedInMenu from '../Menus/SignedInMenu';
 import { openModal } from '../../modals/modalActions';
 
-class NavBar extends React.Component {
+class NavBar extends Component {
 
   handleSignIn = () => {
     this.props.openModal('LoginModal')

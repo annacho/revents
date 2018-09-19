@@ -16,7 +16,7 @@ class EventDetailChatForm extends Component {
 
   render() {
     return (
-      <Form onSubmit={this.props.handleSubmit(this.handleCommentSubmit)>
+      <Form onSubmit={this.props.handleSubmit(this.handleCommentSubmit)}>
         <Field
           name='comment'
           type='text'

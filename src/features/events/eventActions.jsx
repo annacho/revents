@@ -1,6 +1,6 @@
 import { toastr } from 'react-redux-toastr';
 import { FETCH_EVENTS } from './eventConstants';
-import { asyncActionStart, asyncActionFinish, asyncActionError } from './async/eventActions';
+import { asyncActionStart, asyncActionFinish, asyncActionError } from '../../features/async/asyncActions';
 import { createNewEvent } from '../../app/common/util/helpers';
 import moment from 'moment';
 import firebase from '../../app/config/firebase';
@@ -46,7 +46,7 @@ export const updateEvent = event => {
         let eventAttendeeQuerySnap = await eventAttendeeQuery.get();
 
         for (let i = 0; i < eventAttendeeQuerySnap.docs.length; i++) {
-          let eventAttendeeRef = await firestore
+          let eventAttendeeDocRef = await firestore
             .collection('event_attendee')
             .doc(eventAttendeeQuerySnap.docs[i].id);
           await batch.update(eventAttendeeDocRef, {
@@ -98,7 +98,7 @@ export const getEventsForDashboard = (lastEvent) =>
         (await firestore
           .collection('events')
           .doc(lastEvent.id)
-          .get();
+          .get());
       let query;
 
       lastEvent
@@ -110,7 +110,7 @@ export const getEventsForDashboard = (lastEvent) =>
         : (query = eventsRef
           .where('date', '>=', today)
           .orderBy('date')
-          .limit(2)
+          .limit(2));
 
       let querySnap = await query.get();
 

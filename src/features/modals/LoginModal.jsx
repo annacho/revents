@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import {Modal} from 'semantic-ui-react';
 import {connect} from 'react-redux';
 
-import LoginForm from '../auth/Login/LoginForm';
-import {closeModal} from "./modals/modalActions";
+import LoginForm from '../auth/login/LoginForm';
+import {closeModal} from "./modalActions";
 
 const actions = {closeModal};
 

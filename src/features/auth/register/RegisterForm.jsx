@@ -4,8 +4,8 @@ import { Form, Segment, Button, Label, Divider } from 'semantic-ui-react';
 import { Field, reduxForm } from 'redux-form';
 import { combineValidators, isRequired } from 'revalidate';
 import TextInput from '../../../app/common/form/TextInput';
-import { registerUser } from '../auth/Actions';
-import { SocialLogin } from '../SocialLogin/SocialLogin';
+import { registerUser } from '../authActions';
+import SocialLogin from '../SocialLogin/SocialLogin';
 
 const validate = combineValidators({
   displayName: isRequired('displayName'),
